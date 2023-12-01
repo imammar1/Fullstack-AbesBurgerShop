@@ -1,0 +1,76 @@
+body {
+    font-family: 'Merriweather', serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-image: url('./burger2.jpg'); 
+    background-attachment: fixed;
+    color: #333;
+}
+
+header {
+    background-color: #8a2b06; 
+    color: #fff8f0; 
+    text-align: center;
+    padding: 20px 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+    text-shadow: 1px 1px 2px #000;
+}
+
+main {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9); 
+    border-radius: 8px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+h2 {
+    color: #5a3410; 
+    margin-bottom: 15px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input, textarea, select {
+    padding: 10px;
+    border: 1px solid #ffc107; 
+    border-radius: 4px;
+    background: #fffdf7; 
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #8a2b06; 
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #6f2604; 
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #8a2b06;
+    color: white;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+}

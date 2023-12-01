@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burger Shop Admin</title>
+    <link rel="stylesheet" href="admin.css"> <!-- Link to CSS file -->
+</head>
+<body>
+    <header>
+        <h1>Abe's Burger Shop Administration</h1>
+    </header>
+
+    <main>
+        <section id="create-burger">
+            <h2>Create New Burger</h2>
+            <!-- Form for creating a new burger -->
+            <form id="create-form">
+                <!-- Fields for burger details -->
+                <input type="text" id="new-burger-name" placeholder="Burger Name" required>
+                <textarea id="new-burger-description" placeholder="Description"></textarea>
+                <input type="number" id="new-burger-price" placeholder="Price" required>
+                <button type="submit">Create Burger</button>
+            </form>
+        </section>
+
+        <section id="view-burgers">
+            <h2>Current Burgers</h2>
+            <!-- List for displaying existing burgers -->
+            <div id="burger-list">
+                <!-- Burger items populated here -->
+            </div>
+        </section>
+
+        <section id="update-burger">
+            <h2>Update Burger</h2>
+            <!-- Form for updating an existing burger -->
+            <form id="update-form">
+                <!-- Fields for updating burger details -->
+                <select id="update-burger-select">
+                    <!-- Options will be populated with existing burgers -->
+                </select>
+                <input type="text" id="update-burger-name" placeholder="New Name">
+                <textarea id="update-burger-description" placeholder="New Description"></textarea>
+                <input type="number" id="update-burger-price" placeholder="New Price">
+                <button type="submit">Update Burger</button>
+            </form>
+        </section>
+
+        <section id="delete-burger">
+            <h2>Delete Burger</h2>
+            <!-- Form for deleting a burger -->
+            <form id="delete-form">
+                <select id="delete-burger-select">
+                    <!-- Options will be populated with existing burgers -->
+                </select>
+                <button type="submit">Delete Burger</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2023 Burger Shop
+    </footer>
+
+    <script>
+        // This function fetches burger data and populates the dropdowns
+        function fetchAndPopulateBurgers() {
+            fetch('http://localhost/burgerApi/api.php')
+            .then(response => response.json())
+            .then(burgers => {
+                const updateSelect = document.getElementById('update-burger-select');
+                const deleteSelect = document.getElementById('delete-burger-select');
+
+                // Clear existing options
+                updateSelect.innerHTML = '';
+                deleteSelect.innerHTML = '';
+
+                // Populate dropdowns with burgers
+                burgers.forEach(burger => {
+                    const option = document.createElement('option');
+                    option.value = burger.ID; 
+                    option.textContent = burger.Name; 
+                    updateSelect.appendChild(option.cloneNode(true)); 
+                    deleteSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching burgers:', error));
+        }
+
+        // Call the function on page load
+        window.addEventListener('load', fetchAndPopulateBurgers);
+
+        // Fetch and populate burgers
+        // Create event listener to send data through
+        document.getElementById('create-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('new-burger-name').value;
+            const description = document.getElementById('new-burger-description').value;
+            const price = document.getElementById('new-burger-price').value;
+            
+            fetch('http://localhost/burgerApi/create.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ Name: name, Description: description, Price: price })
+            }).then(response => {
+                if (response.ok) {
+                    fetchAndPopulateBurgers();
+                    alert('Burger created successfully');
+                } else {
+                    alert('Error creating burger');
+                }
+            });
+        });
+
+        // Fetch and populate burgers
+        // Create event listener to send data through
+        document.getElementById('update-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const id = document.getElementById('update-burger-select').value;
+            const name = document.getElementById('update-burger-name').value;
+            const description = document.getElementById('update-burger-description').value;
+            const price = document.getElementById('update-burger-price').value;
+
+            fetch('http://localhost/burgerApi/update.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ID: id, Name: name, Description: description, Price: price })
+            }).then(response => {
+                if (response.ok) {
+                    fetchAndPopulateBurgers();
+                    alert('Burger updated successfully');
+                } else {
+                    alert('Error updating burger');
+                }
+            });
+        });
+
+        // Fetch and populate burgers
+        // Create event listener to send data through
+        document.getElementById('delete-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const id = document.getElementById('delete-burger-select').value;
+
+            fetch('http://localhost/burgerApi/delete.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ID: id })
+            }).then(response => {
+                if (response.ok) {
+                    fetchAndPopulateBurgers();
+                    alert('Burger deleted successfully');
+                } else {
+                    alert('Error deleting burger');
+                }
+            });
+        });
+
+        
+    </script>
+
+</body>
+</html>
